@@ -1,16 +1,26 @@
-version: "3.8"
-
 services:
-  frontend:
+  app:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: frontend-app
+      dockerfile: docker/Dockerfile
+    container_name: frontend
     restart: unless-stopped
     networks:
-      - web-network
+      - hewpao-frontend-network
+
+  caddy:
+    image: caddy:2.9.1-alpine
+    container_name: caddy
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+    restart: unless-stopped
+    networks:
+      - hewpao-frontend-network
+    depends_on:
+      - app
 
 networks:
-  web-network:
+  hewpao-frontend-network:
     driver: bridge
-    
