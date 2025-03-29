@@ -24,3 +24,4 @@ services:
 networks:
   hewpao-frontend-network:
     driver: bridge
+#
